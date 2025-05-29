@@ -288,17 +288,43 @@
     }
 
     function addMessage(text, sender) {
-      const msg = document.createElement("div");
-      msg.className = `message ${sender}`;
-      msg.textContent = text;
-      const chat = document.getElementById("chat-messages");
-      chat.appendChild(msg);
-      chat.scrollTop = chat.scrollHeight;
+  const msg = document.createElement("div");
+  msg.className = `message ${sender}`;
+  msg.textContent = text;
+  const chat = document.getElementById("chat-messages");
 
-      if (sender === "bot" && text.includes("چت‌بات آماده است")) {
-        initialBotMessageElement = msg;
-      }
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+
+  // حداکثر تعداد پیام‌های قابل نمایش: 4 تا از هر نوع (user/bot)
+  const messages = chat.querySelectorAll(".message");
+  let userCount = 0;
+  let botCount = 0;
+
+  messages.forEach(m => {
+    if (m.classList.contains("user")) userCount++;
+    if (m.classList.contains("bot")) botCount++;
+  });
+
+  // اگر تعداد پیام‌ها بیشتر از 4 تا از هر نوع شد، حذف قدیمی‌ترین
+  for (let m of messages) {
+    if (userCount > 4 && m.classList.contains("user")) {
+      m.remove();
+      userCount--;
+      break;
     }
+    if (botCount > 4 && m.classList.contains("bot")) {
+      m.remove();
+      botCount--;
+      break;
+    }
+  }
+
+  // ذخیره پیام اولیه چت‌بات برای حذف در اولین پیام کاربر
+  if (sender === "bot" && text.includes("چت‌بات آماده است")) {
+    initialBotMessageElement = msg;
+  }
+}
 
     function addUserMessage(text) {
       addMessage(text, "user");
@@ -353,4 +379,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
