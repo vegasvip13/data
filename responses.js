@@ -66,3 +66,19 @@ const responses = [
   { keywords: ['آجی', 'خواهر', 'دخی'], response: 'آجی قشنگم، خوبی؟ 😇' }
   // ... ادامه پاسخ‌ها
 ];
+
+// تابع پاسخ‌دهی بر اساس ورودی
+function generateResponse(input) {
+  const normalized = input.toLowerCase().replace(/[؟?,.\-_\n\r]/g, '').trim();
+
+  for (const item of responses) {
+    for (const keyword of item.keywords) {
+      if (normalized.includes(keyword)) {
+        return item.response;
+      }
+    }
+  }
+
+  // اگر کلمه کلیدی پیدا نشد:
+  return 'متوجه نشدم چی گفتی! لطفاً واضح‌تر بنویس 🌱';
+}
