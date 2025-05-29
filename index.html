@@ -1,202 +1,249 @@
-<!DOCTYPE html><html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>VEGABOT | VG1</title>
+  <title>چت‌بات VEGABOT</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
-    * { box-sizing: border-box; }
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      font-family: 'Vazirmatn', sans-serif;
-      background: linear-gradient(135deg, #0a0f1a, #121829, #1e2a47);
+    /* استایل دقیق مشابه نمونه شما */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Vazir", Tahoma, sans-serif;
+      background: #ececec;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      direction: rtl;
+    }
+    #chat-container {
+      width: 420px;
+      max-width: 100%;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      color: #e5e7eb;
-      display: flex; justify-content: center; align-items: center;
     }
-    body::before, body::after {
-      content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -2;
+    #chat-header {
+      background: #0f4c81;
+      color: white;
+      padding: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
     }
-    body::before {
-      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 60%),
-                  radial-gradient(circle at 80% 40%, rgba(255,255,255,0.03), transparent 50%);
-      animation: pulseBackground 20s linear infinite;
+    #chat-messages {
+      padding: 15px;
+      height: 400px;
+      overflow-y: auto;
+      background: #f7f9fc;
+      flex-grow: 1;
+      scrollbar-width: thin;
+      scrollbar-color: #0f4c81 transparent;
     }
-    body::after {
-      background: linear-gradient(60deg, #4f46e5 0%, #3b82f6 50%, #9333ea 100%);
-      opacity: 0.08;
-      filter: blur(150px);
-      animation: pulseGradient 25s linear infinite alternate;
-      z-index: -3;
+    #chat-messages::-webkit-scrollbar {
+      width: 6px;
     }
-    @keyframes pulseBackground {
-      0%, 100% {background-position: 20% 20%, 80% 40%;}
-      50% {background-position: 80% 40%, 20% 20%;}
+    #chat-messages::-webkit-scrollbar-thumb {
+      background-color: #0f4c81;
+      border-radius: 10px;
     }
-    @keyframes pulseGradient {
-      0% {opacity: 0.08;} 50% {opacity: 0.14;} 100% {opacity: 0.08;}
+    .message {
+      margin-bottom: 15px;
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 20px;
+      line-height: 1.4;
+      font-size: 1rem;
+      word-wrap: break-word;
+      white-space: pre-wrap;
     }
-    .container {
-      width: 100%; max-width: 420px; height: 100vh;
-      background: rgba(25, 29, 48, 0.52);
-      border-radius: 28px 28px 0 0;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55), inset 0 0 35px rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(18px);
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      display: flex; flex-direction: column; overflow: hidden; position: relative;
-    }
-    header {
-      background: linear-gradient(270deg, #8b5cf6, #6366f1, #8b5cf6);
-      background-size: 300% 300%;
-      animation: gradientShiftMedium 12s ease infinite;
-      padding: 20px 30px; font-weight: 700; font-size: 22px; text-align: center;
-      letter-spacing: 3px; color: #f3f4f6; box-shadow: 0 0 24px #8b5cf6aa;
-      text-transform: uppercase; user-select: none; position: relative;
-      z-index: 10; filter: drop-shadow(0 0 6px #8b5cf6);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    header::before {
-      content: ""; position: absolute; top: 0; left: -60%; width: 120%; height: 100%;
-      background: linear-gradient(90deg, rgba(255 255 255 / 0.15), rgba(255 255 255 / 0));
-      filter: blur(28px);
-      transform: translateX(-100%);
-      animation: shineMove 3.8s linear infinite;
-      pointer-events: none; z-index: 15;
-    }
-    @keyframes gradientShiftMedium {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-    @keyframes shineMove {
-      0% {transform: translateX(-100%);}
-      100% {transform: translateX(220%);}
-    }
-    .chat-log {
-      flex: 1; padding: 20px 28px 90px 28px; overflow-y: auto;
-      display: flex; flex-direction: column; gap: 16px;
-      scrollbar-width: thin; scrollbar-color: #8b5cf6 transparent;
-      background: linear-gradient(270deg, #1e2a47, #3b4276, #1e2a47);
-      background-size: 600% 600%; animation: gradientShiftMedium 10s ease infinite;
-      border-radius: 0 0 28px 28px;
-    }
-    .message { max-width: 80%; padding: 16px 20px; border-radius: 24px;
-      font-size: 15.5px; line-height: 1.5; font-family: 'Plus Jakarta Sans', sans-serif;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25); }
     .message.user {
-      margin-left: auto;
-      background: linear-gradient(120deg, #7c3aed, #a78bfa);
-      color: #fff; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.6);
+      background: #0f4c81;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
     }
     .message.bot {
-      margin-right: auto;
-      background: linear-gradient(120deg, #3b82f6, #60a5fa);
-      color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.6);
+      background: #dbe9ff;
+      color: #0f4c81;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
     }
-    .input-area {
-      position: fixed; bottom: 12px; width: 100%; max-width: 420px;
-      padding: 0 20px 12px 20px; display: flex; align-items: center;
-      gap: 14px; z-index: 15;
+    #input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 10px;
+      background: white;
     }
-    .input-area input {
-      flex-grow: 1; padding: 14px 20px; font-size: 16px; border-radius: 24px;
-      border: none; outline: none; background: rgba(255 255 255 / 0.1);
-      color: #f3f4f6; font-family: 'Plus Jakarta Sans', sans-serif;
+    #user-input {
+      flex-grow: 1;
+      font-size: 1rem;
+      padding: 10px 15px;
+      border: 2px solid #0f4c81;
+      border-radius: 25px;
+      outline: none;
+      transition: border-color 0.3s ease;
     }
-    .input-area input::placeholder { color: #ccc; }
-    .send-button {
-      width: 48px; height: 48px;
-      background: linear-gradient(45deg, #8b5cf6, #6366f1);
-      border-radius: 50%; border: none; cursor: pointer;
-      color: #fff; font-size: 22px; display: flex; justify-content: center; align-items: center;
+    #user-input:focus {
+      border-color: #074b9c;
     }
-    @media screen and (max-width: 420px) {
-      .container { width: 100vw; max-width: 100vw; height: 100vh; border-radius: 0; box-shadow: none; backdrop-filter: none; }
-      .input-area { max-width: 100vw; padding: 0 12px 12px 12px; }
+    #send-btn {
+      background: #0f4c81;
+      border: none;
+      color: white;
+      padding: 0 20px;
+      margin-left: 10px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #send-btn:hover {
+      background: #074b9c;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>VEGABOT | VG1</header>
-    <div class="chat-log" id="chatLog"></div>
-    <form class="input-area" id="chatForm">
-      <input type="text" id="userInput" placeholder="پیام خود را بنویس..." required />
-      <button type="submit" class="send-button">&#9658;</button>
-    </form>
+  <div id="chat-container">
+    <div id="chat-header">چت‌بات VEGABOT</div>
+    <div id="chat-messages"></div>
+    <div id="input-area">
+      <input type="text" id="user-input" placeholder="پیام خود را وارد کنید..." autocomplete="off" />
+      <button id="send-btn">ارسال</button>
+    </div>
   </div>
-  <script>
-    const DB_NAME = 'vegabotDB';
-    const STORE_NAME = 'responses';
-    const JSON_URL = 'https://raw.githubusercontent.com/vegasvip13/data/main/responses.json';const chatLog = document.getElementById('chatLog');
-const chatForm = document.getElementById('chatForm');
-const userInput = document.getElementById('userInput');
-let db;
 
-async function openDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 1);
-    request.onupgradeneeded = (e) => {
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: 'input' });
+  <script>
+    const dbName = "vegaDB";
+    const storeName = "responses";
+    const jsonUrl = "https://raw.githubusercontent.com/vegasvip13/data/main/responses.json";
+
+    let db;
+    let responses = [];
+
+    // باز کردن دیتابیس IndexedDB
+    const request = indexedDB.open(dbName, 1);
+    request.onupgradeneeded = function (e) {
+      db = e.target.result;
+      if (!db.objectStoreNames.contains(storeName)) {
+        db.createObjectStore(storeName, { keyPath: "id", autoIncrement: true });
       }
     };
-    request.onsuccess = (e) => resolve(e.target.result);
-    request.onerror = () => reject('خطا در باز کردن دیتابیس');
-  });
-}
-
-async function loadResponses() {
-  const response = await fetch(JSON_URL);
-  const data = await response.json();
-
-  const tx = db.transaction(STORE_NAME, 'readwrite');
-  const store = tx.objectStore(STORE_NAME);
-  data.forEach(item => store.put(item));
-  return tx.complete;
-}
-
-async function getBotReply(userText) {
-  const tx = db.transaction(STORE_NAME, 'readonly');
-  const store = tx.objectStore(STORE_NAME);
-  const all = store.getAll();
-  return new Promise((resolve, reject) => {
-    all.onsuccess = () => {
-      const match = all.result.find(item =>
-        item.input.toLowerCase().trim() === userText.toLowerCase().trim()
-      );
-      resolve(match ? match.response : 'پاسخی برای این ورودی پیدا نشد 😔');
+    request.onsuccess = function (e) {
+      db = e.target.result;
+      loadResponsesFromDB();
     };
-    all.onerror = () => reject('خطا در جستجو در دیتابیس');
-  });
-}
+    request.onerror = function (e) {
+      console.error("خطا در باز کردن دیتابیس:", e);
+    };
 
-function addMessage(message, sender) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className = 'message ' + sender;
-  msgDiv.textContent = message;
-  chatLog.appendChild(msgDiv);
-  chatLog.scrollTop = chatLog.scrollHeight;
-}
+    // خواندن پاسخ‌ها از دیتابیس
+    function loadResponsesFromDB() {
+      const tx = db.transaction(storeName, "readonly");
+      const store = tx.objectStore(storeName);
+      const getAllReq = store.getAll();
+      getAllReq.onsuccess = function () {
+        if (getAllReq.result.length > 0) {
+          responses = getAllReq.result.map(r => ({ keywords: r.keywords, response: r.response }));
+          console.log("دیتا از دیتابیس خوانده شد");
+          addBotMessage("چت‌بات آماده است! می‌توانید شروع کنید.");
+        } else {
+          fetchResponsesFromGithub();
+        }
+      };
+      getAllReq.onerror = function () {
+        console.error("خطا در خواندن پاسخ‌ها از دیتابیس");
+      };
+    }
 
-chatForm.addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const userMessage = userInput.value.trim();
-  if (!userMessage) return;
-  addMessage(userMessage, 'user');
-  userInput.value = '';
-  const botReply = await getBotReply(userMessage);
-  addMessage(botReply, 'bot');
-});
+    // گرفتن داده از GitHub و ذخیره در دیتابیس
+    function fetchResponsesFromGithub() {
+      fetch(jsonUrl)
+        .then(res => {
+          if (!res.ok) throw new Error("خطا در بارگذاری فایل JSON");
+          return res.json();
+        })
+        .then(data => {
+          responses = data;
+          saveResponsesToDB(data);
+          addBotMessage("چت‌بات آماده است! می‌توانید شروع کنید.");
+        })
+        .catch(err => {
+          console.error(err);
+          addBotMessage("خطا در بارگذاری پاسخ‌ها.");
+        });
+    }
 
-window.addEventListener('DOMContentLoaded', async () => {
-  db = await openDB();
-  await loadResponses();
-});
+    // ذخیره پاسخ‌ها در IndexedDB
+    function saveResponsesToDB(data) {
+      const tx = db.transaction(storeName, "readwrite");
+      const store = tx.objectStore(storeName);
+      data.forEach(item => {
+        store.add({ keywords: item.keywords, response: item.response });
+      });
+    }
 
+    // اضافه کردن پیام به صفحه چت
+    function addMessage(text, sender) {
+      const chat = document.getElementById("chat-messages");
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.textContent = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+    function addUserMessage(text) {
+      addMessage(text, "user");
+    }
+    function addBotMessage(text) {
+      addMessage(text, "bot");
+    }
+
+    // جستجو در پاسخ‌ها
+    function findResponse(userText) {
+      const text = userText.trim().toLowerCase();
+
+      for (const item of responses) {
+        for (const keyword of item.keywords) {
+          if (text.includes(keyword)) {
+            return item.response;
+          }
+        }
+      }
+      return null;
+    }
+
+    // رویداد ارسال پیام
+    const sendBtn = document.getElementById("send-btn");
+    const userInput = document.getElementById("user-input");
+
+    sendBtn.addEventListener("click", () => {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addUserMessage(text);
+      userInput.value = "";
+
+      const botResponse = findResponse(text);
+      if (botResponse) {
+        addBotMessage(botResponse);
+      } else {
+        addBotMessage("پاسخی برای این ورودی پیدا نشد.");
+      }
+    });
+
+    // ارسال با دکمه Enter
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        sendBtn.click();
+      }
+    });
   </script>
 </body>
 </html>
